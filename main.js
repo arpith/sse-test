@@ -4,8 +4,9 @@ var dgram  = require('dgram');
 var apikey = process.env.HOSTEDGRAPHITE_APIKEY;
 
 for(var i = 0; i < process.env.CLIENT_COUNT; i++){
+  var k = i;
   setTimeout(function () {
-    createClient(i);
+    createClient(k);
   }, i*100);
 }
 
