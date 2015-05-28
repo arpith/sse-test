@@ -9,9 +9,11 @@ for(var i = 0; i < process.env.CLIENT_COUNT; i++){
 function createClient(id) {
   var es = new EventSource(process.env.SATELLITE_URL);
   es.onmessage = function(e) {
+    console.log("Received: "+e.data+" ("+id+")")
     logSuccess(e.data);
   };
   es.onerror = function() {
+    console.log("Error: "+id)
     logError(id);
   };
 }
