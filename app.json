@@ -2,5 +2,6 @@
   "name": "SSE Test",
   "description": "A Node.js app to test Satellite using EventSource and Hosted Graphite",
   "repository": "https://github.com/arpith/sse-test",
-  "keywords": ["node", "sse", "satellite", "graphite"]
+  "keywords": ["node", "sse", "satellite", "graphite"],
+  "addons": ["hostedgraphite"]
 }
