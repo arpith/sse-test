@@ -3,8 +3,10 @@ var EventSource = require('eventsource');
 var dgram  = require('dgram');
 var apikey = process.env.HOSTEDGRAPHITE_APIKEY;
 
+var clients = []
 for(var i = 0; i < process.env.CLIENT_COUNT; i++){
   var k = i;
+  clients[i] = 0;
   setTimeout(function () {
     createClient(k);
   }, i*100);
@@ -13,7 +15,9 @@ for(var i = 0; i < process.env.CLIENT_COUNT; i++){
 function createClient(id) {
   var es = new EventSource(process.env.SATELLITE_URL);
   es.onmessage = function(e) {
-    console.log("Received: "+e.data+" ("+id+")")
+    clients[id]++;
+    console.log(util.inspect(clients));
+    console.log("Received: "+e.data+" ("+id+")");
 //    logSuccess(e.data);
   };
   es.onerror = function(e) {
