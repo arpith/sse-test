@@ -14,7 +14,7 @@ while(true) {
 
   function clientOK() {
     clientOkCount++;
-    if clientOkCount == clientCount) {
+    if (clientOkCount == clientCount) {
       console.log("Test "+testId+" success: "+clientCount+" clients, "+messageCount+" messages on "+channelId);
     }
   }
