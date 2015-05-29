@@ -22,10 +22,10 @@ while(testId<maxTests) {
     }
   }
 
-  for (var i = 0; i < clientCount; i++) {
-    setTimeout(function (clientId, channelId, messageCount) {
+  for (var clientId = 0; clientId < clientCount; clientId++) {
+    setTimeout(function (testId, clientId, channelId, messageCount, clientOK) {
       createClient(clientId, channelId, messageCount, clientOK);
-    }, i*100, i, channelId, messageCount, clientOK);
+    }, i*100, testId, clientId, channelId, messageCount, clientOK);
   }
 
   for (var i = 0; i < messageCount; i++) {
@@ -33,7 +33,7 @@ while(testId<maxTests) {
   }
 }
 
-function createClient(id, channelId, totalMessageCount, clientOK) {
+function createClient(testId, clientId, channelId, totalMessageCount, clientOK) {
   var receivedMessageCount = 0;
   var es = new EventSource(satelliteUrl+channelId);
   es.onmessage = function(e) {
@@ -41,7 +41,7 @@ function createClient(id, channelId, totalMessageCount, clientOK) {
     if (receivedMessageCount == totalMessageCount) clientOK();
   };
   es.onerror = function(e) {
-    console.log("Client "+id+" received error on channel "+channelId+" after "+receivedMessageCount+" messages - "+util.inspect(e))
+    console.log("Test "+testId+": Client "+id+" received error on channel "+channelId+" after "+receivedMessageCount+" messages - "+util.inspect(e))
   };
 }
 
