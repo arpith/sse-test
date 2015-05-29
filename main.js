@@ -29,7 +29,9 @@ while(testId<maxTests) {
   }
 
   for (var i = 0; i < messageCount; i++) {
-    request.post(satelliteUrl+channelId).form({'token':token, 'message':i});
+    request.post({url: satelliteUrl+channelId, form: {'token':token, 'message':i}}, function(err,httpResponse,body){
+      console.log("Test "+testId+" message "+i+": "+err+" "+httpResponse+" "+body);
+    });
   }
 }
 
