@@ -1,6 +1,7 @@
 var util = require('util');
 var EventSource = require('eventsource');
 var request = require('request');
+var maxClientCount = process.env.CLIENT_COUNT;
 var token = process.env.TOKEN;
 var satelliteUrl = process.env.SATELLITE_URL + '/broadcast/';
 var testId = 0;
@@ -52,7 +53,7 @@ function randomMessageCount(clientCount) {
 }
 
 function randomClientCount() {
-  return getRandomInt(1, process.env.CLIENT_COUNT);
+  return getRandomInt(1, maxClientCount);
 }
 
 function getRandomInt(min, max) {
