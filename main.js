@@ -41,7 +41,7 @@ function createClient(testId, clientId, channelId, totalMessageCount, clientOK) 
     if (receivedMessageCount == totalMessageCount) clientOK();
   };
   es.onerror = function(e) {
-    console.log("Test "+testId+": Client "+id+" received error on channel "+channelId+" after "+receivedMessageCount+" messages - "+util.inspect(e))
+    console.log("Test "+testId+": Client "+clientId+" received error on channel "+channelId+" after "+receivedMessageCount+" messages - "+util.inspect(e))
   };
 }
 
