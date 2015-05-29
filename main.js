@@ -10,6 +10,7 @@ while(true) {
   var clientCount = randomClientCount();
   var messageCount = randomMessageCount(clientCount);
   var channelId = randomChannelId();
+  console.log("Test "+testId+": "+clientCount+" clients listening for "+messageCount+" messages on "+channelId);
   var clientOkCount = 0;
 
   function clientOK() {
