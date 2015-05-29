@@ -2,11 +2,12 @@ var util = require('util');
 var EventSource = require('eventsource');
 var request = require('request');
 var maxClientCount = process.env.CLIENT_COUNT;
+var maxTests = process.env.TEST_COUNT;
 var token = process.env.TOKEN;
 var satelliteUrl = process.env.SATELLITE_URL + '/broadcast/';
 var testId = 0;
 
-while(true) {
+while(testId<maxTests) {
   testId++;
   var clientCount = randomClientCount();
   var messageCount = randomMessageCount(clientCount);
