@@ -1,0 +1,24 @@
+{
+  "name": "sse-test",
+  "version": "1.0.0",
+  "description": "Simple app to test SSE connections (for example, to Satellite)",
+  "main": "main.js",
+  "dependencies": {
+    "eventsource": "^0.1.6",
+    "request": "*"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arpith/sse-test"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arpith/sse-test/issues"
+  },
+  "homepage": "https://github.com/arpith/sse-test"
+}
