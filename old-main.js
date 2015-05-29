@@ -6,7 +6,7 @@ var maxTests = process.env.TEST_COUNT;
 var token = process.env.TOKEN;
 var satelliteUrl = process.env.SATELLITE_URL + '/broadcast/';
 var testId = 0;
-
+var maxTests = 1;
 while(testId<maxTests) {
   testId++;
   var clientCount = randomClientCount();
@@ -15,7 +15,7 @@ while(testId<maxTests) {
   console.log("Test "+testId+": "+clientCount+" clients listening for "+messageCount+" messages on "+channelId);
   var clientOkCount = 0;
 
-  function clientOK() {
+  var clientOK = function() {
     clientOkCount++;
     if (clientOkCount == clientCount) {
       console.log("Test "+testId+" success: "+clientCount+" clients, "+messageCount+" messages on "+channelId);
@@ -29,9 +29,7 @@ while(testId<maxTests) {
   }
 
   for (var i = 0; i < messageCount; i++) {
-    request.post({url: satelliteUrl+channelId, form: {'token':token, 'message':i}}, function(err,httpResponse,body){
-      console.log("Test "+testId+" message "+i+": "+err+" "+httpResponse+" "+body);
-    });
+    request.post(satelliteUrl+channelId+"?token="+token+"&message="+"hi");
   }
 }
 
@@ -48,7 +46,10 @@ function createClient(testId, clientId, channelId, totalMessageCount, clientOK) 
 }
 
 function randomChannelId() {
-  return Math.random().toString();
+  var crypto = require('crypto')
+  , shasum = crypto.createHash('sha1');
+  shasum.update(Math.random().toString());
+  return shasum.digest('hex');
 }
 
 function randomMessageCount(clientCount) {

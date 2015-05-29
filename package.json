@@ -7,7 +7,9 @@
     "eventsource": "^0.1.6",
     "request": "*"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "babel-core": "^5.4.7"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
