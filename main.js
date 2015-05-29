@@ -24,7 +24,7 @@ while(testId<maxTests) {
 
   for (var clientId = 0; clientId < clientCount; clientId++) {
     setTimeout(function (testId, clientId, channelId, messageCount, clientOK) {
-      createClient(clientId, channelId, messageCount, clientOK);
+      createClient(testId, clientId, channelId, messageCount, clientOK);
     }, i*100, testId, clientId, channelId, messageCount, clientOK);
   }
 
