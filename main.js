@@ -1,30 +1,44 @@
 var util = require('util');
 var EventSource = require('eventsource');
 var request = require('request');
+var token = process.env.TOKEN;
+var satelliteUrl = process.env.SATELLITE_URL + '/broadcast/';
+var testId = 0;
 
-for {
+while(true) {
+  testId++;
   var clientCount = randomClientCount();
   var messageCount = randomMessageCount(clientCount);
   var channelId = randomChannelId();
-  var messagesReceived = {}
+  var clientOkCount = 0;
+
+  function clientOK() {
+    clientOkCount++;
+    if clientOkCount == clientCount) {
+      console.log("Test "+testId+" success: "+clientCount+" clients, "+messageCount+" messages on "+channelId);
+    }
+  }
+
   for (var i = 0; i < clientCount; i++) {
     setTimeout(function (clientId, channelId, messageCount) {
-      createClient(clientId, channelId, messageCount);
-    }, i*100, i, channelId, messageCount);
+      createClient(clientId, channelId, messageCount, clientOK);
+    }, i*100, i, channelId, messageCount, clientOK);
   }
+
   for (var i = 0; i < messageCount; i++) {
-    messagesReceived[i] = 0;
-    request.post(process.env.SATELLITE_URL+channelId).form({'token':process.env.TOKEN, 'message':i});
+    request.post(satelliteUrl+channelId).form({'token':token, 'message':i});
   }
 }
 
-function createClient(id, channelId) {
-  var es = new EventSource(process.env.SATELLITE_URL+channelId);
+function createClient(id, channelId, totalMessageCount, clientOK) {
+  var receivedMessageCount = 0;
+  var es = new EventSource(satelliteUrl+channelId);
   es.onmessage = function(e) {
-    console.log("Received: "+e.data+" ("+id+")");
+    receivedMessageCount++;
+    if (receivedMessageCount == totalMessageCount) clientOK();
   };
   es.onerror = function(e) {
-    console.log("Error: "+id+" "+util.inspect(e))
+    console.log("Client "+id+" received error on channel "+channelId+" after "+receivedMessageCount+" messages - "+util.inspect(e))
   };
 }
 
