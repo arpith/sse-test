@@ -5,10 +5,12 @@ Node app that creates SSE connections to a server and logs messages
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ## Usage
-`$ export CLIENT_COUNT=100`
-`$ export SATELLITE_URL=yourServerUrl`
-`$ export TOKEN=authTokenForSatellite`
-`$ babel-node main.js`
+```
+$ export CLIENT_COUNT=100
+$ export SATELLITE_URL=yourServerUrl
+$ export TOKEN=authTokenForSatellite
+$ babel-node main.js
+```
 
 ## How it works
 The app runs tests with `$CLIENT_COUNT` as the maximum number of SSE clients per test.
