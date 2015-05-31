@@ -4,8 +4,9 @@
   "repository": "https://github.com/arpith/sse-test",
   "keywords": ["node", "sse", "satellite", "graphite"],
   "env": {
-    "SATELLITE_URL": "https://sattest2.heroku.com/",
-    "TOKEN": {"description": "Auth token for SSE server"}
+    "SATELLITE_URL": "https://sattest1.heroku.com/",
+    "TOKEN": {"description": "Auth token for SSE server"},
+    "CLIENT_COUNT": {"description": "Maximum clients per test", "value":100}
     }
   }
 }
