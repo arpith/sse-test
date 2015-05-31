@@ -62,7 +62,7 @@ var startTest = function () {
   deferred.when(clientLoaders).done(function() {
     var clientPromises = clients.map(c => c.waitOn(msg,5000));
     deferred.when(clientPromises).done(function() {clients.map(c => c.close()); console.log("Works for message "+msg+" count "+clientCount);});
-    deferred.when(clientPromises).fail(function() {clients.map(c=> c.close()); console.log("Fail for message "+msg+" count "+clientCount);});
+    deferred.when(clientPromises).fail(function() {clients.map(c => c.close()); console.log("Fail for message "+msg+" count "+clientCount);});
     request.post(channelUrl).form({'token':token,'message':msg});
   });
 }
