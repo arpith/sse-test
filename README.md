@@ -18,4 +18,4 @@ $ babel-node main.js
 
 ## How it works
 The app runs tests with `$CLIENT_COUNT` as the maximum number of SSE clients per test.
-For each test, the app picks a random number of SSE clients and a message to be sent on a random channel. If all clients receive the message, it prints `WORKS` (or `FAIL`). 
+For each test, the app picks a random number of SSE clients and a message to be sent on a random channel. If all clients receive the message, it prints `WORKS` (or `FAIL`) and closes the clients. 
