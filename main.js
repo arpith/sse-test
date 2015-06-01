@@ -19,6 +19,7 @@ class Client {
     this.es.onmessage = (e => this.emitter.emit('message', e.data));
     this.loader = new deferred.Deferred();
     this.es.onopen = (e => this.loader.resolve());
+    this.es.onerror = (e => console.log('ERROR'));
   }
   waitOn(expectedMessage, timeout) {
     var promise = new deferred.Deferred();
@@ -29,6 +30,10 @@ class Client {
     setTimeout(function(){promise.reject();},timeout);
     return promise.promise();
   }
+  close() {
+    this.es.close();
+  }
+
 }
 
 var randomChannelId = function() {
@@ -66,4 +71,4 @@ var startTest = function () {
     request.post(channelUrl).form({'token':token,'message':msg});
   });
 }
-setInterval(function(){startTest()}, 5000);
+setInterval(function(){startTest()}, 1000);
