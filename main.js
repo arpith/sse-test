@@ -69,4 +69,4 @@ var startTest = function () {
     request.post(channelUrl).form({'token':token,'message':msg});
   });
 }
-setInterval(function(){startTest()}, 1000);
+setInterval(function(){startTest()}, 5000);
