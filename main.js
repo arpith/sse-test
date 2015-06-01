@@ -1,6 +1,4 @@
 var deferred = require('simply-deferred');
-var satelliteUrl = "https://sattest1.herokuapp.com";
-var url = satelliteUrl+'/broadcast';
 
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
@@ -19,7 +17,7 @@ class Client {
     this.es.onmessage = (e => this.emitter.emit('message', e.data));
     this.loader = new deferred.Deferred();
     this.es.onopen = (e => this.loader.resolve());
-    this.es.onerror = (e => console.log('ERROR'));
+    this.es.onerror = (e => console.log(util.inspect(e)));
   }
   waitOn(expectedMessage, timeout) {
     var promise = new deferred.Deferred();
