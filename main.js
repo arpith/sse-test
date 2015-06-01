@@ -8,7 +8,7 @@ var EventSource = require('EventSource');
 var request = require('request');
 var maxClientCount = process.env.CLIENT_COUNT;
 var token = process.env.TOKEN;
-var url = process.env.SATELLITE_URL + '/broadcast/';
+var url = process.env.SATELLITE_URL + '/broadcast';
 
 
 class Client {
