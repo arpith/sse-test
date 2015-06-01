@@ -2,7 +2,7 @@ var deferred = require('simply-deferred');
 
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
-var EventSource = require('EventSource');
+var EventSource = require('eventsource');
 var request = require('request');
 var maxClientCount = process.env.CLIENT_COUNT;
 var token = process.env.TOKEN;
