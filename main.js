@@ -6,7 +6,7 @@ var EventSource = require('eventsource');
 var request = require('request');
 var maxClientCount = process.env.CLIENT_COUNT;
 var token = process.env.TOKEN;
-var url = process.env.SATELLITE_URL + '/broadcast';
+var satelliteUrl = process.env.SATELLITE_URL + '/broadcast';
 
 
 class Client {
@@ -54,7 +54,7 @@ var getRandomInt = function(min, max) {
 }
 
 var startTest = function () {
-  var channelUrl = url+'/'+randomChannelId();
+  var channelUrl = satelliteUrl+'/'+randomChannelId();
   var clientCount = randomClientCount();
   var clients = []
   for (let i=0; i<clientCount; i++) {
