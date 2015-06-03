@@ -30,7 +30,7 @@ class Client {
     return promise.promise();
   }
   close() {
-    this.es.close();
+//    this.es.close();
   }
 
 }
