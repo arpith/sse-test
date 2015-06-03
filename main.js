@@ -14,15 +14,16 @@ class Client {
     this.url = url;
     this.es = new EventSource(url);
     this.emitter = new EventEmitter();
-    this.es.onmessage = (e => this.emitter.emit('message', e.data));
     this.loader = new deferred.Deferred();
-    this.es.onopen = (e => this.loader.resolve());
+    var loader = this.loader;
+    this.es.onopen = function(){ loader.resolve()};
     this.es.onerror = (e => console.log(util.inspect(e)));
+    this.es.onmessage = (e => loader.resolve() && this.emitter.emit('message', e.data));
   }
   waitOn(expectedMessage, timeout) {
     var promise = new deferred.Deferred();
     this.emitter.on('message', function (msg) {
-      if (msg === expectedMessage)
+      if (msg === 'PONG')
         promise.resolve();
     });
     setTimeout(function(){promise.reject();},timeout);
@@ -63,7 +64,7 @@ var startTest = function () {
   var msg = randomChannelId();
   var clientLoaders = clients.map(c => c.loader);
   deferred.when(clientLoaders).done(function() {
-    var clientPromises = clients.map(c => c.waitOn(msg,5000));
+    var clientPromises = clients.map(c => c.waitOn(msg,20000));
     deferred.when(clientPromises).done(function() {clients.map(c => c.close()); console.log("Works for message "+msg+" count "+clientCount);});
     deferred.when(clientPromises).fail(function() {clients.map(c => c.close()); console.log("Fail for message "+msg+" count "+clientCount);});
     request.post(channelUrl).form({'token':token,'message':msg});
