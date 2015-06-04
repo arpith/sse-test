@@ -9,13 +9,13 @@ var satelliteUrl = process.env.SATELLITE_URL + '/broadcast';
 
 class Client {
   constructor(url) {
-		this.es = new EventSource(url);
+  	this.es = new EventSource(url);
   }
-	receiveMessage(message) {
-		return new Promise((resolve, reject) => {
-			this.es.onmessage = (m => {if (m.data == message) resolve();});
-		})
-	}
+  receiveMessage(message) {
+  	return new Promise((resolve, reject) => {
+  		this.es.onmessage = (m => {if (m.data == message) resolve();});
+  	})
+  }
   close() {
     this.es.close();
   }
@@ -46,13 +46,13 @@ var startTest = function () {
   }
   Promise.all(clients.map(c => c.receiveMessage(msg)))
   .then(function(response) {
-		console.log("WORKS for "+clientCount+" clients");
-		clients.map(c => c.close());
-	}, function(error) {
-		console.log("FAIL for "+clientCount+" clients");
-		clients.map(c => c.close());
-	});
-	request.post(channelUrl).form({'token':token,'message':msg})
+  	console.log("WORKS for "+clientCount+" clients");
+  	clients.map(c => c.close());
+  }, function(error) {
+  	console.log("FAIL for "+clientCount+" clients");
+  	clients.map(c => c.close());
+  });
+  request.post(channelUrl).form({'token':token,'message':msg})
 }
 
 setInterval(function(){startTest()}, 1000);
