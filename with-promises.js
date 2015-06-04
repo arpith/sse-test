@@ -1,9 +1,7 @@
-var deferred = require('simply-deferred');
-
-var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var EventSource = require('eventsource');
 var request = require('request');
+
 var maxClientCount = process.env.CLIENT_COUNT;
 var token = process.env.TOKEN;
 var satelliteUrl = process.env.SATELLITE_URL + '/broadcast';
@@ -11,19 +9,11 @@ var satelliteUrl = process.env.SATELLITE_URL + '/broadcast';
 
 class Client {
   constructor(url) {
-    this.url = url;
+		this.es = new EventSource(url);
   }
-	addES() {
-		return new Promise(function(resolve, reject) {
-			this.es = new EventSource(this.url);
-			this.es.onopen = resolve;
-			this.es.onerror = reject;
-		})
-	}
-	receiveMessage() {
-		return new Promise(function(resolve, reject) {
-			this.es.onerror = reject;
-			this.es.onmessage = resolve;
+	receiveMessage(message) {
+		return new Promise((resolve, reject) => {
+			this.es.onmessage = (m => {if (m.data == message) resolve();});
 		})
 	}
   close() {
@@ -47,24 +37,22 @@ var getRandomInt = function(min, max) {
 }
 
 var startTest = function () {
-  var msg = randomString();
+  var msg = "PONG";
   var channelUrl = satelliteUrl+'/'+randomString();
   var clientCount = randomClientCount();
-	var postMessage = function() {
-		return new Promise(function(resolve, reject) {
-			request
-				.post(channelUrl)
-				.form({'token':token,'message':msg})
-			  .on('error', reject)
-				.on('response', resolve);
-		});
-	}
   var clients = [];
   for (let i=0; i<clientCount; i++) {
     clients.push(new Client(channelUrl));
   }
-	Promise.all(clients.map(c => c.addEs))
-		.then(function(arrayOfResults) {console.log("here!");})
-		.catch(function(arrayOfErrors) {console.log("there!");});
+  Promise.all(clients.map(c => c.receiveMessage(msg)))
+  .then(function(response) {
+		console.log("WORKS for "+clientCount+" clients");
+		clients.map(c => c.close());
+	}, function(error) {
+		console.log("FAIL for "+clientCount+" clients");
+		clients.map(c => c.close());
+	});
+	request.post(channelUrl).form({'token':token,'message':msg})
 }
-setInterval(function(){startTest()}, 5000);
+
+setInterval(function(){startTest()}, 1000);
