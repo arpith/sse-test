@@ -13,7 +13,7 @@ class Client {
   }
   receiveMessage(message) {
     return new Promise((resolve, reject) => {
-    	this.es.onmessage = (m => {if (m.data == message) resolve();});
+      this.es.onmessage = (m => {if (m.data == message) resolve();});
     })
   }
   close() {
@@ -23,8 +23,8 @@ class Client {
 
 var randomString = function() {
   var crypto = require('crypto')
-    , shasum = crypto.createHash('sha1');
-   shasum.update(Math.random().toString());
+  , shasum = crypto.createHash('sha1');
+  shasum.update(Math.random().toString());
   return shasum.digest('hex');
 }
 
@@ -52,7 +52,7 @@ var startTest = function () {
     console.log("FAIL for "+clientCount+" clients");
     clients.map(c => c.close());
   });
-  request.post(channelUrl).form({'token':token,'message':msg})
+  request.post(channelUrl).form({'token':token,'message':msg});
 }
 
 setInterval(function(){startTest()}, 1000);
