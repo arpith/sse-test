@@ -1,4 +1,3 @@
-var util = require('util');
 var EventSource = require('eventsource');
 var request = require('request');
 
