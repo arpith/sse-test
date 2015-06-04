@@ -64,7 +64,7 @@ var startTest = function () {
     clients.push(new Client(channelUrl));
   }
 	Promise.all(clients.map(c => c.addEs))
-		.then(function(arrayOfResults) {console.log(util.inspect(arrayOfResults));})
-		.catch(function(arrayOfErrors) {console.log(util.inspect(arrayOfErrors));});
+		.then(function(arrayOfResults) {console.log("here!");})
+		.catch(function(arrayOfErrors) {console.log("there!");});
 }
 setInterval(function(){startTest()}, 5000);
