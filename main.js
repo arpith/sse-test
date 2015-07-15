@@ -1,9 +1,10 @@
 var EventSource = require('eventsource');
 var request = require('request');
 
-var maxClientCount = process.env.CLIENT_COUNT;
+var maxClientCount = process.env.CLIENT_COUNT || 100;
 var token = process.env.TOKEN;
-var satelliteUrl = process.env.SATELLITE_URL + '/broadcast';
+var baseSatelliteURL = process.env.SATELLITE_URL || "https://logworks-satellite.herokuapp.com";
+var satelliteURL = baseSatelliteURL + '/broadcast';
 
 
 class Client {
@@ -37,11 +38,11 @@ var getRandomInt = function(min, max) {
 
 var startTest = function () {
   var msg = "PONG";
-  var channelUrl = satelliteUrl+'/'+randomString();
+  var channelURL = satelliteURL+'/'+randomString();
   var clientCount = randomClientCount();
   var clients = [];
   for (let i=0; i<clientCount; i++) {
-    clients.push(new Client(channelUrl));
+    clients.push(new Client(channelURL));
   }
   Promise.all(clients.map(c => c.receiveMessage(msg)))
   .then(function(response) {
@@ -51,7 +52,7 @@ var startTest = function () {
     console.log("FAIL for "+clientCount+" clients");
     clients.map(c => c.close());
   });
-  request.post(channelUrl).form({'token':token,'message':msg});
+  request.post(channelURL).form({'token':token,'message':msg});
 }
 
 setInterval(function(){startTest()}, 1000);
