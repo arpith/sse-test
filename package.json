@@ -1,13 +1,12 @@
 {
   "name": "sse-test",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Simple app to test SSE connections (for example, to Satellite)",
   "main": "main.js",
   "dependencies": {
     "eventsource": "^0.1.6",
     "request": "*",
     "babel": "^5.4.7",
-    "simply-deferred": "*"
   },
   "scripts": {
     "start": "./node_modules/.bin/babel-node ./main.js",
