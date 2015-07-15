@@ -1,7 +1,7 @@
 var EventSource = require('eventsource');
 var request = require('request');
 
-var maxClientCount = process.env.CLIENT_COUNT || 100;
+var maxClientCount = process.env.MAX_CLIENT_COUNT || 100;
 var token = process.env.TOKEN;
 var baseSatelliteURL = process.env.SATELLITE_URL || "https://logworks-satellite.herokuapp.com";
 var satelliteURL = baseSatelliteURL + '/broadcast';
